@@ -1,0 +1,10 @@
+{
+  "name": "@table-top-tinker-tool/web",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "next": "^16.2.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
