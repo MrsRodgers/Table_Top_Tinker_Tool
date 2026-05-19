@@ -1,4 +1,6 @@
-import Layout from '@/components/layout/layout';
+'use client';
+
+import Layout from '@/lib/components/layout/layout';
 import './global.css';
 
 import { ThemeProvider } from 'next-themes';
@@ -12,7 +14,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <title>Tabletop Tinker Toolkit</title>
-        <link rel="icon" type="image/svg" href="/tinker-toy.svg" />
+        <link rel="icon" type="image/svg" href="/logo_sm.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body>
         <ThemeProvider
