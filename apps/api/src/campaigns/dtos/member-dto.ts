@@ -4,6 +4,7 @@ import { CampaignRole } from '@shared-libs/enums';
 export class MembersDTO {
   @IsString()
   discordId: string;
+  
   @IsEnum({ CampaignRole })
   role: CampaignRole;
 }

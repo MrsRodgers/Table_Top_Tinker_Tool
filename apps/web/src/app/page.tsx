@@ -24,7 +24,7 @@ export default function LandingPage() {
             <Button
               variant="default"
               size="lg"
-              className="w-1/3 h-auto p-8 object-contain"
+              className=" w-full md:w-1/3  lg:w-1/3 h-auto p-8 object-contain"
               onClick={() => handleOnClick(game.gameType)}
             >
               <img className="object-contain" src={game.logo} />

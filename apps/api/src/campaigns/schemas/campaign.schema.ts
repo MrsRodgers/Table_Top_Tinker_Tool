@@ -7,10 +7,11 @@ export class Campaign {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true, enum: ActiveGame })
+  @Prop({ type: String, required: true, enum: ActiveGame })
   gameType: ActiveGame;
 
   @Prop({
+    type: String,
     required: true,
     enum: CampaignStatus,
     default: CampaignStatus.ACTIVE,

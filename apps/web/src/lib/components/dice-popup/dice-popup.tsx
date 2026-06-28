@@ -1,61 +1,39 @@
 'use client';
+import type { Dispatch, SetStateAction } from 'react';
+import type { DiceEntry } from './types';
+
+import { useRef, useState } from 'react';
+
 import { Button } from '@/lib/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogFooter,
-  DialogTrigger,
 } from '@/lib/components/ui/dialog';
-import { useRef, useState } from 'react';
-import { D20Dice } from '../dice/d20';
-import { D6Dice } from '../dice/d6';
+
 import { DiceEnum } from '@/lib/enums';
+
+import { DiceMap, getDiceNum } from './utils';
+
 type DicePopupProps = {
-  trigger: React.ReactElement;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   diceType: DiceEnum;
   diceAmount: number;
-  title?:string;
+  title?: string;
   disadvantage?: boolean;
 };
 
-type DiceComponent<P> = React.ForwardRefExoticComponent<
-  React.PropsWithoutRef<P> & React.RefAttributes<DiceHandle>
->;
-
-const DiceMap: Record<DiceEnum, DiceComponent<{ diceNum: number }>> = {
-  [DiceEnum.D20]: D20Dice,
-  [DiceEnum.D6]: D6Dice,
-};
-export type DiceHandle = {
-  rollD: () => void;
-  diceNum?: number;
-};
-
-type DiceEntry = {
-  ref: DiceHandle | null;
-  diceNum: number;
-};
-
-export const getDiceNum = (type: DiceEnum): number => {
-  switch (type) {
-    case DiceEnum.D20:
-      return Math.floor(Math.random() * 20) + 1;
-
-    case DiceEnum.D6:
-      return Math.floor(Math.random() * 6) + 1;
-  }
-};
-
 export const DicePopup: React.FC<DicePopupProps> = ({
-  trigger,
+  open,
+  setOpen,
   diceType,
   diceAmount,
   disadvantage,
-  title
+  title,
 }) => {
   const Dice = DiceMap[diceType];
-  const [open, setOpen] = useState(false);
   const [rolled, setRolled] = useState(false);
   const [result, setResult] = useState('');
   const diceRefs = useRef<Record<string, DiceEntry>>({});
@@ -95,6 +73,7 @@ export const DicePopup: React.FC<DicePopupProps> = ({
     if (disadvantage) return `${Math.min(...rolls)}`;
     return `${Math.max(...rolls)}`;
   };
+  
   return (
     <Dialog
       open={open}
@@ -106,9 +85,10 @@ export const DicePopup: React.FC<DicePopupProps> = ({
         }
       }}
     >
-      <DialogTrigger>{trigger}</DialogTrigger>
       <DialogContent className="flex flex-col items-center justify-center size-fit sm:size-fit top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-       <DialogTitle className="text-xl text-secondary font-custom">{title}</DialogTitle>
+        <DialogTitle className="text-xl text-secondary font-custom">
+          {title}
+        </DialogTitle>
         <div className="flex flex-row">
           {Array.from({ length: diceAmount }).map((dice, i) => {
             const diceNum = getDiceNum(diceType);
